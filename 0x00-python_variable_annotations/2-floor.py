@@ -2,6 +2,6 @@
 """implement a floor function"""
 
 
-def concat(n: float) -> int:
+def floor(n: float) -> int:
     """compute floor of n then return result"""
     return int(n)
