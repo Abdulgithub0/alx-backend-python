@@ -2,7 +2,7 @@
 
 
 from asyncio import sleep
-from random import import uniform
+from random import uniform
 
 
 '''Write an asynchronous coroutine that takes in an integer argument
