@@ -19,4 +19,4 @@ async def wait_n(n: int, max_delay: int) -> List[float]:
     """Return a list of randomized delay from wait_random"""
     wait_random = __import__('0-basic_async_syntax').wait_random
 
-    return sorted([await wait_random(max_delay) for i in range(n - 1)])
+    return sorted([await wait_random(max_delay) for i in range(n)])
