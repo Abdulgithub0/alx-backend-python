@@ -3,7 +3,7 @@
 
 from time import time
 import asyncio
-from typing import Float
+
 
 '''From the previous file, import wait_n into 2-measure_runtime.py.
 
@@ -15,9 +15,9 @@ from typing import Float
 '''
 
 
-async def measure_time(n: int, max_delay: int) -> Float:
+async def measure_time(n: int, max_delay: int) -> float:
     '''Measure total time taken by coroutines'''
     wait_n = __import__('1-concurrent_coroutines').wait_n
     start_time = time()
-    await asyncio.run(wait_n(n, max_delay))
+    asyncio.run(wait_n(n, max_delay))
     return (time() - start_time) / n
