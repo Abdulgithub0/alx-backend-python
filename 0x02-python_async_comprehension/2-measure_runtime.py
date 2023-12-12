@@ -10,7 +10,7 @@ import asyncio
 import time
 
 
-async def measure_runtime():
+async def measure_runtime() -> float:
     """collect and return a random numbers between 1 - 10 asyncronously"""
     async_com = __import__('1-async_comprehension').async_comprehension
     start_time = time.time()
