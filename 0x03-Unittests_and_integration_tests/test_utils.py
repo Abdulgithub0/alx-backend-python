@@ -10,11 +10,11 @@ class TestAccessNestedMap(unittest.TestCase):
     """test all methods define in utils module
     """
     @parameterized.expand([
-            ({"a": 1}, "a",),
-            ({"a": {"b": 2}}, "a",),
-            ({"a": {"b": 2}}, ("a", "b"))
+            ({"a": 1}, "a", 1),
+            ({"a": {"b": 2}}, "a", {"b": 2}),
+            ({"a": {"b": 2}}, ("a", "b"), 2)
     ])
     def test_access_nested_map(self, _map, path, expected):
         """assert if access_nested_map return correct output"""
-        correct = access_nested_map(_map, path)
-        self.assertEqual(correct, expected)
+        result = access_nested_map(_map, path)
+        self.assertEqual(result, expected)
