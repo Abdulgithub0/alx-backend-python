@@ -41,8 +41,7 @@ class TestGetJson(unittest.TestCase):
         """
         m = unittest.mock.Mock()
         m.json.return_value = test_payload
-        with unittest.mock.patch("requests.get") as req:
-            req.return_value = m
+        with unittest.mock.patch("requests.get", return_value = m) as req:
             result = get_json(test_url)
             m.json.assert_called_once()
             self.assertEqual(result, test_payload)
