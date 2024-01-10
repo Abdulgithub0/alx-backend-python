@@ -4,7 +4,7 @@
 import unittest
 from parameterized import parameterized
 from utils import access_nested_map, get_json
-import requests
+import utils
 
 class TestAccessNestedMap(unittest.TestCase):
     """test all methods define in utils module
@@ -32,7 +32,7 @@ class TestAccessNestedMap(unittest.TestCase):
 class TestGetJson(unittest.TestCase):
     """define unittest for get_json
     """
-    @unittest.mock.patch("requests.get")
+    @unittest.mock.patch("utils.requests.get")
     def test_get_json(self, m_get):
         """test if get_json return correct output
         """
