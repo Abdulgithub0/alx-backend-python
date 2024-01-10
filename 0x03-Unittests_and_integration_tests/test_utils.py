@@ -59,11 +59,15 @@ class TestMemoize(unittest.TestCase):
         """
 
         class TestClass:
+            """nested class
+            """
             def a_method(self):
+                """just return 42"""
                 return 42
 
             @memoize
             def a_property(self):
+                """call a method"""
                 return self.a_method()
         with unittest.mock.patch.object(TestClass, "a_method") as mock_obj:
             instan = TestClass()
