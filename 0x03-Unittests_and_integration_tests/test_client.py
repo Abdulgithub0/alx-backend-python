@@ -18,11 +18,9 @@ class TestGithubOrgClient(unittest.TestCase):
     @patch("client.get_json")
     def test_org(self, test_org_name, m_get_json):
         """test org method"""
-        # m_get_json.return_value = {"org_present": True}
         result = GithubOrgClient(test_org_name)
         arg = f'https://api.github.com/orgs/{test_org_name}'
-        res = result.org()
-        # self.assertEqual(res, {"org_present": True})
+        result.org()
         m_get_json.assert_called_once_with(arg)
 
     @parameterized.expand([
@@ -48,3 +46,12 @@ class TestGithubOrgClient(unittest.TestCase):
             self.assertEqual(result, match_names)
             mock_get_json.assert_called_once_with("http://api.com/org/org")
             m.assert_called_once()
+
+    @parameterized.expand([
+            ({"license": {"key": "my_license"}}, "my_license", True),
+            ({"license": {"key": "other_license"}}, "my_license", False)
+    ])
+    def test_has_license(self, repo, in_params, out_params):
+        """test has_license method"""
+        bools = GithubOrgClient.has_license(repo, in_params)
+        self.assertEqual(bools, out_params)
