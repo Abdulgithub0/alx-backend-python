@@ -4,8 +4,9 @@
 from client import GithubOrgClient
 import unittest
 from unittest.mock import patch, Mock, PropertyMock
-from parameterized import parameterized
+from parameterized import parameterized, parameterized_class
 import client
+from fixtures import TEST_PAYLOAD
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -55,3 +56,42 @@ class TestGithubOrgClient(unittest.TestCase):
         """test has_license method"""
         bools = GithubOrgClient.has_license(repo, in_params)
         self.assertEqual(bools, out_params)
+
+
+@parameterized_class(
+        ("org_payload", "repos_payload", "expected_repos", "apache2_repos"),
+        TEST_PAYLOAD
+)
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """implement integration test
+    """
+    @classmethod
+    def setUpClass(cls):
+        """class setup setting"""
+        kwargs = {"return_value.json.side_effect": [
+                 cls.org_payload, cls.repos_payload,
+                 cls.org_payload, cls.repos_payload]
+        }
+        cls.get_patcher = patch("requests.get", **kwargs)
+        cls.mock_obj = cls.get_patcher.start()
+
+    @classmethod
+    def tearDownClass(cls):
+        """stop the patch"""
+        cls.get_patcher.stop()
+
+    def test_public_repos(self):
+        """Integrated test for public repos method"""
+        instan = GithubOrgClient("github")
+        self.assertEqual(instan.org, self.org_payload)
+        self.assertEqual(instan.repos_payload, self.repos_payload)
+        self.assertEqual(instan.public_repos(), self.expected_repos)
+        self.mock_obj.assert_called()
+
+    def test_public_repos_with_license(self):
+        """ Integration test for public repos with License """
+        test_class = GithubOrgClient("google")
+        self.assertEqual(test_class.public_repos("empty"), [])
+        self.assertEqual(test_class.public_repos("apache-2.0"),
+                         self.apache2_repos)
+        self.mock_obj.assert_called()
